@@ -36,7 +36,7 @@ class ProductController extends Controller
             'image' => $path
         ]);
 
-        return Redirect::route('create_product');
+        return Redirect::route('index_product');
     }
 
     public function index_product()

@@ -18,6 +18,19 @@
     <form action="{{ route('edit_product', $product) }}" method="get">
         <button type="submit">Edit Product</button>
     </form>
+
+    <form action="{{ route('add_to_cart', $product) }}" method="post">
+        @csrf
+        <input type="number" name="amount" id="" value="1">
+        <button type="submit">Add to cart</button>
+
+        {{-- memunculkan error --}}
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                <p>{{ $error }}</p>
+            @endforeach
+        @endif
+    </form>
 </body>
 
 </html>
