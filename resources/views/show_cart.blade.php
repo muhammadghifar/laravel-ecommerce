@@ -27,13 +27,23 @@
             <input type="number" name="amount" id="" value="{{ $cart->amount }}">
             <button type="submit">Update jumlah</button>
         </form>
-        <form action="{{route('delete_cart', $cart)}}" method="post">
+        <form action="{{ route('delete_cart', $cart) }}" method="post">
             @method('delete')
             @csrf
             <button type="submit">Delete</button>
         </form>
         <hr>
     @endforeach
+
+    <form action="{{ route('checkout') }}" method="post">
+        @csrf
+        <button type="submit">Checkout</button>
+    </form>
+    
+    <hr>
+    {{-- <form action="{{route('index_product')}}" method="get">
+        <button type="submit">Back to Product</button>
+    </form> --}}
 </body>
 
 </html>
