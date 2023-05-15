@@ -9,6 +9,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
 {
@@ -54,5 +55,27 @@ class OrderController extends Controller
     public function show_order(Order $order)
     {
         return view('show_order', compact('order'));
+    }
+
+    public function submit_payment_receipt(Order $order, Request $request)
+    {
+        $file = $request->file('payment_receipt');
+        $path = time() . '_' . $order->id . '.' . $file->getClientOriginalExtension();
+        Storage::disk('local')->put('public/' . $path, file_get_contents($file));
+
+        $order->update([
+            'payment_receipt' => $path
+        ]);
+
+        return Redirect::back();
+    }
+
+    public function confirm_payment(Order $order)
+    {
+        $order->update([
+            'is_paid' => true
+        ]);
+
+        return Redirect::back();
     }
 }
