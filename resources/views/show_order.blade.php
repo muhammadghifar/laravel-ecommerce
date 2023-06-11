@@ -1,31 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Orders</title>
-</head>
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('Order Detail') }}</div>
 
-<body>
-    <p>Order ID : {{ $order->id }}</p>
-    <p>User : {{ $order->user->name }}</p>
-    @foreach ($order->transactions as $transaction)
-        <p>Product : {{$transaction->product->name}}</p>
-        <p>Jumlah : {{$transaction->amount}}</p>
-    @endforeach
+                    <div class="card-body">
+                        <h5 class="card-title">Order ID {{ $order->id }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ $order->user->name }}</h6>
 
-    @if ($order->is_paid == false && $order->payment_receipt == null)
-        <form action="{{route('submit_payment_receipt', $order)}}" method="post" enctype="multipart/form-data">
-            @csrf
-            <label for="payment_receipt">Upload payment receipt</label>
-            <br>
-            <input type="file" name="payment_receipt" id="payment_receipt">
-            <br>
-            <button type="submit">Submit payment</button>
-        </form>
-    @endif
-</body>
+                        @if ($order->is_paid == true)
+                            <p class="card-text">Paid</p>
+                        @else
+                            <p class="card-text">Unpaid</p>
+                        @endif
+                        <hr>
+                        @foreach ($order->transactions as $transaction)
+                            <p> {{ $transaction->product->name }} - {{ $transaction->amount }} pcs</p>
+                            <p></p>
+                        @endforeach
 
-</html>
+                        @if ($order->is_paid == false && $order->payment_receipt == null)
+                            <form action="{{route('submit_payment_receipt', $order)}}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-group">
+                                    <label >Upload your payment receipt</label>
+                                    <input type="file" name="payment_receipt" class="form-control">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit Payment</button>
+                            </form>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
