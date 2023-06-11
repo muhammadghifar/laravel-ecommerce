@@ -7,6 +7,10 @@
                 <div class="card">
                     <div class="card-header">{{ __('Order Detail') }}</div>
 
+                    @php
+                        $total_price = 0;
+                    @endphp
+
                     <div class="card-body">
                         <h5 class="card-title">Order ID {{ $order->id }}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{ $order->user->name }}</h6>
@@ -20,8 +24,13 @@
                         @foreach ($order->transactions as $transaction)
                             <p> {{ $transaction->product->name }} - {{ $transaction->amount }} pcs</p>
                             <p></p>
+                            @php
+                                $total_price = $transaction->product->price * $transaction->amount;
+                            @endphp
                         @endforeach
-
+                        <hr>
+                        <p>Total : Rp {{$total_price}}</p>
+                        <hr>
                         @if ($order->is_paid == false && $order->payment_receipt == null)
                             <form action="{{route('submit_payment_receipt', $order)}}" method="post" enctype="multipart/form-data">
                                 @csrf
@@ -29,7 +38,7 @@
                                     <label >Upload your payment receipt</label>
                                     <input type="file" name="payment_receipt" class="form-control">
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit Payment</button>
+                                <button type="submit" class="btn btn-primary mt-3">Submit Payment</button>
                             </form>
                         @endif
                     </div>
