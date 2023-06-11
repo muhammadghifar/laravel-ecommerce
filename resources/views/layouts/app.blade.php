@@ -55,9 +55,15 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a href="{{route('show_cart')}}" class="dropdown-item">
-                                        Cart
-                                    </a>
+                                    @if (Auth::user()->is_admin)
+                                        <a href="{{route('create_product')}}" class="dropdown-item">
+                                            Create Product
+                                        </a>
+                                    @else
+                                        <a href="{{route('show_cart')}}" class="dropdown-item">
+                                            Cart
+                                        </a>
+                                    @endif
                                     
                                     <a href="{{route('index_order')}}" class="dropdown-item">
                                         Order

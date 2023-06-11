@@ -8,8 +8,7 @@
                     <div class="card-header">{{ __('Create Product') }}</div>
 
                     <div class="card-body">
-                        <form action="{{route('store_product', $product)}}" method="post" enctype="multipart/form-data">
-                            @method('patch')
+                        <form action="{{route('store_product')}}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label>Name</label>

@@ -18,19 +18,22 @@
                                 <h3>Rp {{ $product->price }}</h3>
                                 <hr>
                                 <p>{{ $product->stock }} left</p>
-                                <form action="{{ route('add_to_cart', $product) }}" method="post">
-                                    @csrf
-                                    <div class="input-group mb-3">
-                                        <input type="number" name="amount" id="" class="form-control"
-                                            aria-describedby="basic-addon2" value="1">
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-outline-secondary">Add to cart</button>
+                                @if (!Auth::user()->is_admin) 
+                                    <form action="{{ route('add_to_cart', $product) }}" method="post">
+                                        @csrf
+                                        <div class="input-group mb-3">
+                                            <input type="number" name="amount" id="" class="form-control"
+                                                aria-describedby="basic-addon2" value="1">
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-outline-secondary">Add to cart</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </form>
-                                <form action="{{ route('edit_product', $product) }}" method="get">
-                                    <button type="submit" class="btn btn-primary">Edit Product</button>
-                                </form>
+                                    </form>
+                                @else
+                                    <form action="{{ route('edit_product', $product) }}" method="get">
+                                        <button type="submit" class="btn btn-primary">Edit Product</button>
+                                    </form>
+                                @endif
                             </div>
                         </div>
 

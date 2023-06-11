@@ -23,10 +23,12 @@
                                         @if ($order->payment_receipt)
                                             <div class="d-flex flex-row justify-content-around">
                                                 <a href="{{url('storage/' . $order->payment_receipt)}}" class="btn btn-primary">Show payment receipt</a>
-                                                <form action="{{route('confirm_payment', $order)}}" method="post">
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-success">Confirm</button>
-                                                </form>
+                                                @if(Auth::user()->is_admin)
+                                                    <form action="{{route('confirm_payment', $order)}}" method="post">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-success">Confirm</button>
+                                                    </form>
+                                                @endif
                                             </div>
                                         @endif
                                     @endif
